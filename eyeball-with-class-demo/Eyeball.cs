@@ -22,8 +22,11 @@ public class Eyeball
         this.position = position;
         this.irisColor = eyeColors[Random.Integer(eyeColors.Length)];
     }
-    public void IsEyeClicked()
+    public bool IsEyeClicked()
     {
+        // Was eye closed this frame?
+        bool value = false;
+
         // Only run if we are clicking left mouse button
         if (Input.IsMouseButtonPressed(MouseInput.Left))
         {
@@ -35,9 +38,12 @@ public class Eyeball
             float distanceEyeToMouse = fromEyeToMouse.Length();
             if (distanceEyeToMouse <= corneaR)
             {
-                isEyeOpen = false;
+                // Value will be true on first call, then false on future calls
+                value = isEyeOpen;
+                return true;
             }
         }
+        return value;
     }
     public void DrawEyeball()
     {
